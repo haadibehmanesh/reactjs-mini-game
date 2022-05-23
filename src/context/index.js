@@ -33,9 +33,31 @@ class MyProvider extends Component {
                 position: toast.POSITION.TOP_LEFT
             })
         } else {
-            toast.success('moving to stage 2')
+
+            this.setState({
+                stage: 2
+            }, () => {
+                setTimeout(() => {
+                    this.generateLooser();
+                }, 1000)
+            })
+
         }
 
+    }
+    generateLooser = () => {
+        const { players } = this.state;
+        this.setState({
+
+            result: players[Math.floor(Math.random() * players.length)]
+        })
+    }
+    resetGame = () => {
+        this.setState({
+            stage: 1,
+            players: [],
+            result: ''
+        })
     }
     render() {
         return (
@@ -44,7 +66,9 @@ class MyProvider extends Component {
                     state: this.state,
                     addPlayer: this.addPlayerHandler,
                     removePlayer: this.removePlayerHandler,
-                    next: this.nextHandler
+                    next: this.nextHandler,
+                    getNewLooser: this.generateLooser,
+                    resetGame: this.resetGame
                 }}>
                     {this.props.children}
                 </MyContext.Provider>
