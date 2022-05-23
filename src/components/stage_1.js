@@ -2,6 +2,7 @@ import { useContext, useRef, useState } from "react";
 import { Button, Alert, Form } from "react-bootstrap";
 import { MyContext } from "../context";
 
+
 const Stage1 = () => {
     const TextInput = useRef();
     const context = useContext(MyContext);
@@ -32,9 +33,16 @@ const Stage1 = () => {
         return true;
 
     }
+    const handleRemovePlayer = (index) => {
+
+        context.removePlayer(index);
+        context.toast("The player has removed");
+
+    }
     return (
 
         <>
+
             <Form onSubmit={handleSubmit} className="mt-4">
                 <Form.Group>
                     <Form.Control type="text" placeholder="Add Player Name" name="player" ref={TextInput} />
@@ -55,9 +63,9 @@ const Stage1 = () => {
                     <ul className="list-group">
                         {
                             context.state.players.map((item, index) => (
-                                <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" key={index}>
+                                <li className="list-group-item list-group-item-action d-flex justify-content-between align-items-center" key={index} >
                                     {item}
-                                    <span onClick={() => (alert('remove'))} className="badge badge-pill badge-danger">X</span>
+                                    < span onClick={() => handleRemovePlayer(index)} className="badge badge-pill badge-danger" > X</span>
                                 </li>
                             )
                             )
@@ -66,6 +74,9 @@ const Stage1 = () => {
 
 
                     </ul>
+                    <div onClick={context.next} className="action_button">
+                        Next
+                    </div>
 
                 </>
 
